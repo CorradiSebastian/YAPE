@@ -2,13 +2,16 @@ package com.sebastiancorradi.yape.di.modules
 
 import com.sebastiancorradi.yape.domain.detailsscreen.InitDetailsScreenUseCase
 import com.sebastiancorradi.yape.domain.mainscreen.AboutClickedUseCase
+import com.sebastiancorradi.yape.domain.mainscreen.GetRecipesUseCase
 import com.sebastiancorradi.yape.domain.mainscreen.ReceipesRequestedUseCase
+import com.sebastiancorradi.yape.domain.mainscreen.SearchValueChangedUseCase
+import com.sebastiancorradi.yape.domain.mapscreen.InitMapScreenUseCase
+import com.sebastiancorradi.yape.domain.mapscreen.ZoomEnabledUseCase
 import com.sebastiancorradi.yape.repository.RecipeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 
 @Module
@@ -21,11 +24,22 @@ object MainScreenModule {
     fun provideRecipeRepository() = RecipeRepository()
 
     @Provides
-    fun provideRecipesRequestedUseCase(recipeRepository: RecipeRepository) = ReceipesRequestedUseCase(recipeRepository)
-
-    @Provides
     fun provideInitDetailsScreenUseCase(): InitDetailsScreenUseCase{
         return InitDetailsScreenUseCase()
     }
 
+    @Provides
+    fun provideInitMapScreenUseCase() = InitMapScreenUseCase()
+
+    @Provides
+    fun provideZoomEnabledUseCase() = ZoomEnabledUseCase()
+
+    @Provides
+    fun provideSearchValueChangedUseCase() = SearchValueChangedUseCase()
+
+    @Provides
+    fun providesGetRecipesUseCase(recipeRepository: RecipeRepository) = GetRecipesUseCase(recipeRepository)
+
+    @Provides
+    fun provideRecipesRequestedUseCase(getRecipesUseCase: GetRecipesUseCase) = ReceipesRequestedUseCase(getRecipesUseCase)
 }

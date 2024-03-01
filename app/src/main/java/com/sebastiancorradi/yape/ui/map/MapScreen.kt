@@ -1,7 +1,6 @@
 package com.sebastiancorradi.yape.ui.map
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,7 +22,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
@@ -48,18 +45,19 @@ import com.google.maps.android.compose.currentCameraPositionState
 import com.sebastiancorradi.yape.data.Recipe
 
 
-private lateinit var state:MapUIState
+private lateinit var state:MapScreenUIState
+private lateinit var _viewModel: MapViewModel
 
 @SuppressLint("RememberReturnType")
 @Composable
 fun MapScreen(recipe: Recipe, viewModel: MapViewModel = hiltViewModel()) {
 
 
-    state = viewModel.mapUIState.collectAsState().value
-    val locations = state.locations
+    state = viewModel.mapScreenUIState.collectAsState().value
     val context = LocalContext.current
+    _viewModel = viewModel
     remember() {
-        viewModel.init(recipe.latitude?:0.0, recipe.longitude?:0.0)
+        viewModel.init(recipe)
     }
 
     ConstraintLayout(
@@ -76,13 +74,13 @@ fun MapScreen(recipe: Recipe, viewModel: MapViewModel = hiltViewModel()) {
             Text("Hello")
         }
 
-        ShowMap(locations)
+        ShowMap(state.location, state.name)
     }
 }
 
 
 @Composable
-fun ShowMap(locations: List<LatLng>){
+fun ShowMap(location: LatLng, name: String){
     var uiSettings by remember { mutableStateOf(MapUiSettings()) }
     var properties by remember {
         mutableStateOf(MapProperties(mapType = MapType.SATELLITE))
@@ -94,7 +92,7 @@ fun ShowMap(locations: List<LatLng>){
         uiSettings = uiSettings,
         //cameraPositionState =  cameraPositionState,
     ){
-        for (location in locations) {
+
             location?.let {
                 Marker(
                     state = MarkerState(
@@ -102,29 +100,34 @@ fun ShowMap(locations: List<LatLng>){
                             it.latitude?:0.0,
                             it.longitude?:0.0
                         )
-                    ), title = "receta"
+                    ), title = name
                 )
             }
-        }
 
-
-/*                var cameraPosition = CameraPosition.fromLatLngZoom(LatLng(0.0, 0.0), 10f)
-                val lastCameraPosition = CameraPositionState(cameraPosition)
+                var cameraPosition = CameraPosition.fromLatLngZoom(LatLng(location.latitude, location.longitude), 10f)
+                val recipeCameraPosition = CameraPositionState(cameraPosition)
 
             currentCameraPositionState.move(
                 CameraUpdateFactory.newCameraPosition(
-                    lastCameraPosition.position
+                    recipeCameraPosition.position
                 )
             )
-            currentCameraPositionState.move(CameraUpdateFactory.zoomTo(19F))*/
+            currentCameraPositionState.move(CameraUpdateFactory.zoomTo(4F))
 
+    }
+    Column {
+        SwitchWithText(label = "Zoom enabled", callback = { checked ->
+            uiSettings = uiSettings.copy(zoomControlsEnabled = checked,
+                scrollGesturesEnabled = checked,
+                zoomGesturesEnabled = checked,
+                rotationGesturesEnabled = checked,)
+            _viewModel.zoomEnabled(checked, )
+        }, _viewModel.mapScreenUIState.collectAsState().value.zoomEnabled)
     }
 }
 
 @Composable
 fun BasicSwitch(callback: (checked: Boolean) -> Unit, checked: Boolean) {
-    //var checked by remember { mutableStateOf(true) }
-    //var checked = viewModel.mapUIState.collectAsState().value.focusOnLastPosition
     Switch(
         checked = checked,
         onCheckedChange = {

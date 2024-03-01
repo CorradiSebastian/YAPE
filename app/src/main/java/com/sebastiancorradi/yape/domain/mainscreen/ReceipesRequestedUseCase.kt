@@ -1,17 +1,14 @@
 package com.sebastiancorradi.yape.domain.mainscreen
 
-import android.util.Log
-import com.sebastiancorradi.yape.data.Recipe
-import com.sebastiancorradi.yape.repository.RecipeRepository
+import com.sebastiancorradi.yape.ui.main.MainScreenUIState
 import javax.inject.Inject
 
 class ReceipesRequestedUseCase @Inject constructor(
-    private val recipeRepository: RecipeRepository,
+    private val getRecipesUseCase: GetRecipesUseCase,
 ) {
-    suspend operator fun invoke(): List<Recipe> {
-        val result = recipeRepository.getRecipes().recipes
-        Log.e("Sebas", "result: ${result.toString()}")
-        return result?: listOf()
+    suspend operator fun invoke(state: MainScreenUIState): MainScreenUIState {
+        val recipes = getRecipesUseCase()
+        return state.copy(recipes = recipes, filteredRecipes = recipes)
     }
 }
 

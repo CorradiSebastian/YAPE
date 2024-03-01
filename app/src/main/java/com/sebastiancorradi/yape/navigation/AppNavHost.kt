@@ -20,6 +20,7 @@ import com.sebastiancorradi.yape.ui.details.DetailsViewModel
 import com.sebastiancorradi.yape.ui.main.MainScreen
 import com.sebastiancorradi.yape.ui.main.MainViewModel
 import com.sebastiancorradi.yape.ui.map.MapScreen
+import com.sebastiancorradi.yape.ui.map.MapViewModel
 
 
 private lateinit var _navController: NavController
@@ -52,7 +53,7 @@ fun AppNavHost(
                 backStackEntry ->
             val recipe = backStackEntry.arguments?.getParcelable<Recipe>("recipe")
 
-            MapScreen(recipe?:Recipe())
+            MapScreen(recipe?: Recipe(), viewModel = hiltViewModel<MapViewModel>(),)
         }
     }
 }
