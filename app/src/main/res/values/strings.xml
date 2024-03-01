@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">YAPE</string>
+
+    <string name="receipe_name">Name: </string>
+    <string name="receipe_description">Description: </string>
+    <string name="receipe_location">Location: </string>
+    <string name="view_receipe_details">Details</string>
+    <string name="view_receipe_location">Map</string>
+
+    <string name="receipe_name_not_available">Name not available</string>
+
+
+    <string name="image">Image</string>
+
+
+    <string name="main">main</string>
+    <string name="detail">Image</string>
+    <string name="map">Image</string>
+
+    <string name="see_it_in_map">See it in ap</string>
+</resources>
