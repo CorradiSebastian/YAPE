@@ -2,8 +2,7 @@ package com.sebastiancorradi.yape.domain.mainscreen
 
 import com.sebastiancorradi.yape.ui.main.MainScreenUIState
 
-class SearchValueChangedUseCase(
-) {
+class SearchValueChangedUseCase() {
     operator fun invoke(
         state: MainScreenUIState,
         newValue: String,

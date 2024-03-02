@@ -7,6 +7,7 @@ import com.sebastiancorradi.yape.domain.mainscreen.ReceipesRequestedUseCase
 import com.sebastiancorradi.yape.domain.mainscreen.SearchValueChangedUseCase
 import com.sebastiancorradi.yape.domain.mapscreen.InitMapScreenUseCase
 import com.sebastiancorradi.yape.domain.mapscreen.ZoomEnabledUseCase
+import com.sebastiancorradi.yape.repository.IRecipeRepository
 import com.sebastiancorradi.yape.repository.RecipeRepository
 import dagger.Module
 import dagger.Provides
@@ -21,7 +22,7 @@ object MainScreenModule {
     fun provideAboutClickedUseCase() = AboutClickedUseCase()
 
     @Provides
-    fun provideRecipeRepository() = RecipeRepository()
+    fun provideRecipeRepository():IRecipeRepository = RecipeRepository()
 
     @Provides
     fun provideInitDetailsScreenUseCase(): InitDetailsScreenUseCase{
@@ -38,7 +39,7 @@ object MainScreenModule {
     fun provideSearchValueChangedUseCase() = SearchValueChangedUseCase()
 
     @Provides
-    fun providesGetRecipesUseCase(recipeRepository: RecipeRepository) = GetRecipesUseCase(recipeRepository)
+    fun providesGetRecipesUseCase(iRecipeRepository: IRecipeRepository) = GetRecipesUseCase(iRecipeRepository)
 
     @Provides
     fun provideRecipesRequestedUseCase(getRecipesUseCase: GetRecipesUseCase) = ReceipesRequestedUseCase(getRecipesUseCase)

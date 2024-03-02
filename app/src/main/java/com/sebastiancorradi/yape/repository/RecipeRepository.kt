@@ -3,8 +3,11 @@ package com.sebastiancorradi.yape.repository
 import com.sebastiancorradi.yape.datasource.ApiClient
 import com.sebastiancorradi.yape.datasource.RecipeResponse
 
-class RecipeRepository() {
-    suspend fun getRecipes(): RecipeResponse {
+
+
+
+class RecipeRepository() : IRecipeRepository {
+    override suspend fun getRecipes(): RecipeResponse {
         /*
         val result = mutableListOf<Receipe>()
         result.add(Receipe("flan", "es un flan", location = LatLng(-15.0, -34.0)))
