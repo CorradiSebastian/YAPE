@@ -1,5 +1,6 @@
 package com.sebastiancorradi.yape.ui.main
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,6 +17,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -57,6 +60,7 @@ fun displayAbout() {
     TODO("Not yet implemented")
 }
 
+@SuppressLint("RememberReturnType")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainContent(
@@ -68,7 +72,9 @@ fun MainContent(
 
     val recipes = state.value.filteredRecipes
     Log.e(TAG, "receipes value: $recipes")
-
+    remember {
+        viewModel.receipeRequested()
+    }
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -76,10 +82,10 @@ fun MainContent(
     ) {
         val (searchView, recyclerColumn) = createRefs()
 
-        if (recipes?.size == 0) {
+        /*if (recipes?.size == 0) {
             Text("loading")
             viewModel.receipeRequested()
-        } else {
+        } else {*/
             OutlinedTextField(
                 modifier = Modifier.constrainAs(searchView) {
                     top.linkTo(parent.top, margin = 5.dp)
@@ -105,7 +111,7 @@ fun MainContent(
                     ReceipeCard(onSeeDetailClicked, it)
                 }
             }
-        }
+        //}
     }
 }
 

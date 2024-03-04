@@ -1,9 +1,7 @@
 package com.sebastiancorradi.yape.repository
 
 import com.sebastiancorradi.yape.data.Recipe
-import com.sebastiancorradi.yape.datasource.ApiClient
-import com.sebastiancorradi.yape.datasource.RecipeResponse
-import dagger.Provides
+import com.sebastiancorradi.yape.datasource.data.RecipeResponse
 
 
 class RecipeRepositoryTest : IRecipeRepository {

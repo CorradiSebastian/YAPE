@@ -4,6 +4,6 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class YAPEApp: Application() {
+open class YAPEApp: Application() {
 
 }

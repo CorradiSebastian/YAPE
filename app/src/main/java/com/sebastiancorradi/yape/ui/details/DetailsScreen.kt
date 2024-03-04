@@ -34,8 +34,6 @@ fun DetailsScreen(
     seeItInMapsClicked:(recipe: Recipe) -> Unit,
     detailsViewModel: DetailsViewModel = viewModel(),
     ) {
-
-    val detailsUIState by detailsViewModel.detailsScreenUIState.collectAsState()
     YAPETheme {
         // A surface container using the 'background' color from the theme
         Surface(

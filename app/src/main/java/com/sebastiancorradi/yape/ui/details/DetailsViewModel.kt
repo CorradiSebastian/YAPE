@@ -26,9 +26,6 @@ class DetailsViewModel @Inject constructor() : ViewModel() {
         _detailsScreenUIState.value = initDetailsScreenUseCase(receipe)
     }
 
-    fun seeItInMapsClicked(latitude: Double, longitude: Double) {
-        TODO("Not yet implemented")
-    }
 
 }
 

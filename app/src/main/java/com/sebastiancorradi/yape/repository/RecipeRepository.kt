@@ -1,21 +1,29 @@
 package com.sebastiancorradi.yape.repository
 
+import android.util.Log
+import com.sebastiancorradi.yape.data.Recipe
 import com.sebastiancorradi.yape.datasource.ApiClient
-import com.sebastiancorradi.yape.datasource.RecipeResponse
-
-
+import com.sebastiancorradi.yape.datasource.data.RecipeResponse
+import retrofit2.HttpException
 
 
 class RecipeRepository() : IRecipeRepository {
     override suspend fun getRecipes(): RecipeResponse {
-        /*
-        val result = mutableListOf<Receipe>()
-        result.add(Receipe("flan", "es un flan", location = LatLng(-15.0, -34.0)))
-        result.add(Receipe("torta", "es una torta", location = LatLng(-18.996, -36.02)))
-        result.add(Receipe("Apple Crumble", "es un", location = LatLng(-15.0, -34.0)))
-    */
-        val response = ApiClient.apiService.getRecipes()
-        val result = response
-        return result?:RecipeResponse()
+        var response:RecipeResponse? = RecipeResponse()
+        try {
+            response = ApiClient.apiService.getRecipes()
+        } catch (e: HttpException){
+            Log.e("sebas", "Exception: $e")
+
+            val recipes = mutableListOf<Recipe>()
+            recipes.add(Recipe("flan", "es un flan", latitude = -15.0, longitude = -34.0, ingredients = "harina, agua"))
+            recipes.add(Recipe("torta", "es una torta", latitude = -11.0, longitude = 16.0, ingredients = "harina, pan"))
+            recipes.add(Recipe("pollo", "es un pollo", latitude = 4.0, longitude = -14.0, ingredients = "jamon, queso"))
+
+            response = RecipeResponse(errorCode = 200, success = true, recipes = recipes)
+
+        }
+
+        return response?: RecipeResponse()
     }
 }

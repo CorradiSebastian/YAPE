@@ -71,8 +71,7 @@ class UseCasesTests{
             val recipeRepository = RecipeRepositoryTest()
             val getRecipesUseCase = GetRecipesUseCase(recipeRepository = recipeRepository)
             val recipes = getRecipesUseCase()
-            val repository = RecipeRepositoryTest()
-            val expectedRecipes = repository.getRecipesList()
+            val expectedRecipes = recipeRepository.getRecipesList()
             Assert.assertEquals(expectedRecipes, recipes)
         }
 

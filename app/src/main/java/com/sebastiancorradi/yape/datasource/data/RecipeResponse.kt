@@ -1,4 +1,4 @@
-package com.sebastiancorradi.yape.datasource
+package com.sebastiancorradi.yape.datasource.data
 
 import com.sebastiancorradi.yape.data.Recipe
 
